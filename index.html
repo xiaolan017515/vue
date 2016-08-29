@@ -1,0 +1,167 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <style>
+        .box{
+            width: 50%;
+            margin: auto;
+        }
+        .box1{
+            background: beige;
+        }
+        .box1, .box2{
+            width: 50%;
+            height: 50px;
+            text-align:center;
+            line-height:50px;
+            float:left;
+        }
+    </style>
+</head>
+<body>
+<div class="app1">
+    {{ message }}
+    <input v-model="message">
+    <input v-model="message">
+</div>
+<div class="app2">
+    <ul>
+        <li v-for="to in todos">
+            {{to.text}}
+        </li>
+    </ul>
+</div>
+<div class="to">
+    <ul>
+        <li v-for="to in tos">
+            {{to.text}}
+        </li>
+    </ul>
+</div>
+<div id="app3">
+    <p>{{ message }}</p>
+    <button v-on:click="reverseMessage">Reverse Message</button>
+    <button v-on:click="bb">点击</button>
+</div>
+
+<div id="app4">
+    <input v-model="newTodo" v-on:keyup.enter="addTodo">
+    <ul>
+        <li v-for="todo in todos">
+            <span>{{ todo.text }}</span>
+            <button v-on:click="removeTodo($index)">X</button>
+        </li>
+    </ul>
+</div>
+<div id="app5">
+    <div v-if="vif">1111</div>
+    <a v-bind:href="url">herf</a>
+    <a href="{{url}}">herf</a>
+</div>
+<div class="pages"></div>
+<div id="ipp5">
+    <my-component></my-component>
+</div>
+<script type="text/javascript" src="js/vue.js"></script>
+<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="js/jquery.page.js"></script>
+<script type="text/javascript">
+    new Vue({
+        el: '.app1',
+        data: {
+            message: 'Hello Vue.js!'
+        }
+    });
+    new Vue({
+        el:'.app2',
+        data:{
+            todos:[
+                {text:'1213'},
+                {text:'134576'},
+                {text:'ajfksdgf'}
+            ]}
+    });
+    new Vue({
+        el:'.to',
+        data:{
+            tos:[
+                {text:'1'},
+                {text:'2'},
+                {text:'3'}
+            ]
+        }
+    });
+    new Vue({
+        el: '#app3',
+        data: {
+            message: 'Hello Vue.js!'
+        },
+        methods: {
+            reverseMessage: function () {
+                this.message = this.message.split('').reverse().join('')
+            },
+            bb:function(){
+                this.message=this.message.split('').reverse().join('')
+            }
+        }
+    });
+
+    new Vue({
+        el: '#app4',
+        data: {
+            newTodo: '',
+            todos: [
+                { text: 'Add some todos' }
+            ]
+        },
+        methods: {
+            addTodo: function () {
+                var text = this.newTodo.trim();
+                if (text) {
+                    this.todos.push({ text: text });
+                    console.log(this.todos);
+                    this.newTodo = ''
+                }
+            },
+            removeTodo: function (index) {
+                this.todos.splice(index, 1)
+            }
+        }
+    });
+    new Vue({
+        el:"#app5",
+        data:{
+            vif:true,
+            url:'www.baidu.com'
+        }
+    });
+    $('.pages').createPage({
+        totalMsg:100,
+        current:1,
+        pageSize:15,
+        backFn:function(p){
+              console.log(p)
+        }}
+    );
+//    定义
+   var tel=Vue.extend({
+       template:'<div class="box"><div class="box1" v-if="vif">取消</div><div class="box2" v-on:click="a">保存</div></div>'
+   });
+//    注册
+    Vue.component('my-component',tel);
+    new Vue({
+        el:'#ipp5',
+        data:{
+            vif:false
+        },
+        methods:{
+            a:function(){
+                this.vif=true;
+            }
+        }
+    });
+
+</script>
+</body>
+</html>
